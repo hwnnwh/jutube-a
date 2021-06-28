@@ -1,0 +1,14 @@
+extends ../template/layout
+
+block content
+    h3=video.title
+    div
+        p=video.description
+        small=video.creationTime 
+        ul
+            each hashtag in video.hashtags
+                li=hashtag 
+    hr
+    a(href=`${video._id}/edit`) Edit this video &rarr;
+    br
+    a(href=`${video._id}/delete`) Delete this video &rarr;

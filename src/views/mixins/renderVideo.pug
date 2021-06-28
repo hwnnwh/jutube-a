@@ -1,0 +1,6 @@
+mixin renderVideo(video)
+    div 
+        a(href=`videos/${video._id}`)=video.title  
+        p=video.description 
+        small=video.creationTime 
+        hr

@@ -1,0 +1,8 @@
+extends ../template/layout
+include ../mixins/renderVideo
+
+block content
+    if videos
+        each video in videos 
+            +renderVideo(video)
+    

@@ -1,0 +1,10 @@
+extends ../template/layout
+
+block content 
+    if errMessage
+        span=errMessage
+    form(method="POST")
+        input(type="text" placeholder="제목" name="title" maxLength="30" required)
+        input(type="textarea" placeholder="설명" name="description" minLength="5" required)
+        input(type="text" placeholder="해시태그(쉼표로 구분)" name="hashtags" required)
+        input(type="submit" value="업로드")

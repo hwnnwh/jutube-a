@@ -1,0 +1,11 @@
+extends template/layout
+include mixins/renderVideo
+
+block content 
+    form(method="GET")
+        input(placeholder="검색어를 입력하시오" name="keyword" type="text")
+        input(type="submit" value="검색")
+    br
+    div 
+        each video in videos 
+            +renderVideo(video)

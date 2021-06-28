@@ -1,0 +1,17 @@
+extends ../template/layout
+
+block content 
+    if errMessage 
+        span=errMessage
+    form(method="POST")
+        input(name="name" placeholder="이름" type="text" required)
+        input(name="userId" placeholder="아이디" type="text" required)
+        input(name="password" placeholder="패스워드" type="password" required)
+        input(name="password2" placeholder="패스워드 확인" type="password" required)
+        input(name="email" placeholder="이메일" type="email" required)
+        input(name="location" placeholder="도시" type="text" required)
+        input(type="submit" value="가입하기")
+    hr
+    div 
+        span 
+            a(href="/login") 이미 계정이 있으신가요? &rarr;

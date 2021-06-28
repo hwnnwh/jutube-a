@@ -1,0 +1,13 @@
+extends ../template/layout
+
+block content
+    if errMessage 
+        span=errMessage 
+    form(method="POST")
+        input(name="userId" placeholder="아이디" type="text" required)
+        input(name="password" placeholder="패스워드" type="password" required)
+        input(type="submit" value="로그인")
+    hr
+    div 
+        span 
+            a(href="/join") 아직 가입하지 않으셨나요? &rarr;
