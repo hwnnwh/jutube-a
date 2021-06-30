@@ -5,22 +5,31 @@ head
   meta(name="viewport", content="width=device-width, initial-scale=1.0")
   meta(http-equiv="X-UA-Compatible", content="ie=edge")
   title #{pageTitle} | #{serviceName}
-  link(rel="stylesheet", href="https://unpkg.com/mvp.css")
+  link(rel="stylesheet", href="/static/css/style.css")
+  //- link(rel="stylesheet", href="https://unpkg.com/mvp.css")
 body
   header
     nav
       ul 
         li
           a(href="/") HOME
+        li
+          a(href="/search") SEARCH
         if !loggedIn
           li 
             a(href="/login") LOGIN
           li 
             a(href="/join") JOIN
-        li
-          a(href="/videos/upload") UPLOAD
-        li
-          a(href="/search") SEARCH
+        else 
+          li
+            a(href="/videos/upload") UPLOAD
+          li 
+            a(href=`/users/${loggedInUser._id}`) PROFILE
+          li 
+            a(href="/users/edit") EDIT PROFILE
+          li 
+            a(href="/users/logout") LOGOUT
   main
-    block content
+    block content           
 include ../partials/footer
+script(src="/static/js/main.js")

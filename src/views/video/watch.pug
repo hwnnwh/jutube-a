@@ -2,13 +2,19 @@ extends ../template/layout
 
 block content
     h3=video.title
+    video(src="/" + video.fileUrl, controls)
     div
         p=video.description
         small=video.creationTime 
-        ul
-            each hashtag in video.hashtags
-                li=hashtag 
+        small
+            ul
+                each hashtag in video.hashtags
+                    li=hashtag.replace(/\s/g, "")
+    div 
+        small Uploaded by 
+            a(href=`/users/${video.owner._id}`)=video.owner.name
     hr
+    //- if String(video.owner._id) === String(loggedInUser._id)
     a(href=`${video._id}/edit`) Edit this video &rarr;
     br
     a(href=`${video._id}/delete`) Delete this video &rarr;

@@ -6,4 +6,5 @@ block content
         input(name="title" type="text" value=video.title maxLength="30" required placeholder="제목")
         input(name="description" type="text" value=video.description minLength="5" required placeholder="설명")
         input(name="hashtags" type="text" value=video.hashtags.join() required placeholder="해시태그(쉼표로 구분)")
+        //-hashtag 백엔드 변경값 미반영 문제 수정
         input(type="submit" value="수정")

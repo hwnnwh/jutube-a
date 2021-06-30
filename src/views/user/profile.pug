@@ -1,0 +1,9 @@
+extends ../template/layout
+include ../mixins/renderVideo
+
+block content 
+    if user.videos
+        each video in user.videos 
+            +renderVideo(video)
+    else 
+        span 업로드한 비디오가 없습니다

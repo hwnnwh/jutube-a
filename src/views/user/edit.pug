@@ -1,0 +1,16 @@
+extends ../template/layout
+
+block content 
+    img(src="/"+loggedInUser.avatarurl width="90" height="90")
+    form(method="POST" enctype="multipart/form-data") 
+        label(for="avatar") 프로필 사진   
+        input(id="avatar" name="avatar" type="file" accept="image/*")
+        input(name="name" type="text" placeholder="이름" value=loggedInUser.name required minLenth="1")
+        input(name="email" type="email" placeholder="이메일" value=loggedInUser.email required minLenth="1")
+        input(name="userId" type="text" placeholder="아이디" value=loggedInUser.userId required minLenth="1")
+        input(name="location" type="text" placeholder="도시" value=loggedInUser.location required minLenth="1")
+        //-minLength 버그 방지 위함
+        input(type="submit" value="수정")
+        if !loggedInUser.socialOnly
+            hr
+            a(href="password") 비밀번호 변경 &rarr;
