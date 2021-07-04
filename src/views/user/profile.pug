@@ -3,8 +3,8 @@ include ../mixins/renderVideo
 
 block content 
     div.profile__data
-        img(src= "/" + user.avatarUrl).avatar
-        //- img(src=user.avatarUrl).avatar
+        //- img(src= "/" + user.avatarUrl).avatar
+        img(src=user.avatarUrl).avatar
         h3=`${user.name}의 비디오`
     div.video-grid
         each video in user.videos 

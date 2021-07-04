@@ -1,6 +1,7 @@
 import User from "../models/User";
 import bcrypt from "bcrypt";
 import fetch from "node-fetch";
+import { createComment } from "./videoControllers";
 
 export const getJoin = (req, res) => {
   return res.render("user/join", { pageTitle: "Join" });
@@ -61,6 +62,12 @@ export const postLogin = async (req, res) => {
 };
 
 export const startGithubLogin = (req, res) => {
+  const {
+    user: { _id, socialOnly },
+  } = req.session;
+  if (socialOnly) {
+    return (req.session.loggedIn = true);
+  }
   const baseUrl = "https://github.com/login/oauth/authorize";
   const config = {
     client_id: process.env.GH_CLIENT,
@@ -133,9 +140,8 @@ export const finishGithubLogin = async (req, res) => {
 };
 
 export const logout = (req, res) => {
-  req.flash("info", "로그아웃 되었습니다");
   req.session.destroy();
-  return res.redirect("/login");
+  return res.redirect("/");
 };
 
 export const getEdit = (req, res) => {
