@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "node build/init.js",
     "build": "npm run build:server && npm run build:assets",
     "build:server": "babel src -d build",
     "build:assets": "webpack --mode=production",
     "dev:server": "nodemon",
-    "dev:assets": "webpack --mode=development -w"
+    "dev:assets": "webpack --mode=development -w",
+    "start": "node build/init.js",
+    "heroku-postbuild": "npm run build:server && npm run build:assets"
   },
   "repository": {
     "type": "git",
