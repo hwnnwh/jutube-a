@@ -23,7 +23,6 @@ export const watch = async (req, res) => {
   if (!video) {
     return res.render("template/404", { pageTitle: "404" });
   } else {
-    console.log(video.comments.owner);
     return res.render("video/watch", { pageTitle: "Watch", video });
   }
 };

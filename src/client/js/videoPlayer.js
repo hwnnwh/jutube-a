@@ -84,13 +84,13 @@ const handleFullscreen = () => {
   }
 };
 
-const handleKeyboard = (e) => {
-  if (e.key === " ") {
+const handleKeyboard = (event) => {
+  if (event.key === " ") {
     handlePlay();
-  } else if (e.key === "f") {
+  } else if (event.key === "f") {
     video.requestFullscreen();
     fullScreenBtn.className = "fas fa-compress";
-  } else if (e.key === "Escape") {
+  } else if (event.key === "Escape") {
     document.exitFullscreen();
     fullScreenBtn.className = "fas fa-expand";
   }
