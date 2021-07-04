@@ -11,8 +11,6 @@ module.exports = {
     thumbnailExtractor: PATH_JS + "thumbnailExtractor.js",
     404: PATH_JS + "404.js",
   },
-  mode: "development",
-  watch: true,
   plugins: [
     new MiniCssExtractPlugin({
       filename: "css/style.css",
