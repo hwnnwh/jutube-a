@@ -23,7 +23,8 @@ export const postJoin = async (req, res) => {
   }
   try {
     await User.create({
-      avatarUrl,
+      avatarUrl:
+        "https://jutube-a.s3.amazonaws.com/images/25406be95c33217e849ef0393fb6f627",
       name,
       userId,
       password,
