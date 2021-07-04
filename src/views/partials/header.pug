@@ -14,11 +14,11 @@ header
           li 
             a(href=`/users/${loggedInUser._id}`)
               if loggedInUser.avatarUrl 
-                //- img.header__avatar(src="/"+loggedInUser.avatarUrl)                
                 img.header__avatar(src=loggedInUser.avatarUrl)                
+                //- img.header__avatar(src="/"+loggedInUser.avatarUrl)                
               else 
-                //- img.header__avatar(src= "/" + "img/avatardefault2.png")
                 img.header__avatar(src= "https://jutube-a.s3.us-east-2.amazonaws.com/images/25406be95c33217e849ef0393fb6f627")
+                //- img.header__avatar(src= "/" + "img/avatardefault2.png")
           li
             a(href="/search") SEARCH
           li

@@ -1,7 +1,4 @@
 header {
-  a:hover {
-    color: tomato;
-  }
   padding: 10px 50px;
   display: flex;
   justify-content: space-between;
@@ -11,6 +8,9 @@ header {
     font-size: 40px;
     font-family: "Shadows Into Light", cursive;
     font-weight: 600;
+    &:hover {
+      color: tomato;
+    }
   }
   ul {
     display: flex;

@@ -11,10 +11,19 @@ export const home = async (req, res) => {
 
 export const watch = async (req, res) => {
   const { id } = req.params;
-  const video = await Video.findById(id).populate("owner").populate("comments");
+  const video = await Video.findById(id)
+    .populate("owner")
+    .populate({
+      path: "comments",
+      populate: {
+        path: "owner",
+        model: "User",
+      },
+    });
   if (!video) {
     return res.render("template/404", { pageTitle: "404" });
   } else {
+    console.log(video.comments.owner);
     return res.render("video/watch", { pageTitle: "Watch", video });
   }
 };
