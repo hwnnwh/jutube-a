@@ -31,7 +31,7 @@ app.use(
 );
 app.use(localsMiddleware);
 app.use("/static", express.static("assets"));
-app.use("/img", express.static("img"));
+// app.use("/img", express.static("img"));
 app.use("/uploads", express.static("uploads"));
 
 app.use("/", rootRouter);

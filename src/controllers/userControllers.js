@@ -160,7 +160,6 @@ export const postEdit = async (req, res) => {
           ? file.location
           : file.path
         : "https://jutube-a.s3.us-east-2.amazonaws.com/images/25406be95c33217e849ef0393fb6f627",
-      // : "img/avatardefault2.png",
       name,
       email,
       userId,
