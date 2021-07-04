@@ -2,23 +2,13 @@ import multer from "multer";
 import aws from "aws-sdk";
 import multerS3 from "multer-s3";
 
-const s3 = new aws.S3({
-  credentials: {
-    accessKeyId: process.env.AWS_ID,
-    secretAccessKey: process.env.AWS_SECRET,
-  },
-});
-
-const multerUploader = multerS3({
-  s3: s3,
-  bucket: "jutube-a",
-  acl: "public-read",
-});
+const isHeroku = process.env.NODE_ENV === "production";
 
 export const localsMiddleware = (req, res, next) => {
   res.locals.serviceName = "Jutube";
   res.locals.loggedIn = Boolean(req.session.loggedIn);
   res.locals.loggedInUser = req.session.user;
+  res.locals.isHeroku = isHeroku;
   next();
 };
 
@@ -40,10 +30,29 @@ export const publicOnlyMiddleware = (req, res, next) => {
   }
 };
 
+const s3 = new aws.S3({
+  credentials: {
+    accessKeyId: process.env.AWS_ID,
+    secretAccessKey: process.env.AWS_SECRET,
+  },
+});
+
+const s3ImageUploader = multerS3({
+  s3: s3,
+  bucket: "jutube-a/images",
+  acl: "public-read",
+});
+
+const s3VideoUploader = multerS3({
+  s3: s3,
+  bucket: "jutube-a/videos",
+  acl: "public-read",
+});
+
 export const avatarUpload = multer({
   dest: "uploads/avatars/",
   limits: { fileSize: "3000000" },
-  storage: multerUploader,
+  storage: isHeroku ? s3ImageUploader : undefined,
 });
 
 export const videoUpload = multer({
@@ -51,5 +60,5 @@ export const videoUpload = multer({
   limits: {
     fileSize: "10000000",
   },
-  storage: multerUploader,
+  storage: isHeroku ? s3VideoUploader : undefined,
 });

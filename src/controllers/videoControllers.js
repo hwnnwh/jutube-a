@@ -38,7 +38,7 @@ export const postUpload = async (req, res) => {
   } = req;
   try {
     const newVideo = await Video.create({
-      fileUrl,
+      fileUrl: isHeroku ? file.location : file.path,
       title,
       description,
       creationTime: Date.now(),

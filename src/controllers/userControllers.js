@@ -161,7 +161,11 @@ export const postEdit = async (req, res) => {
   const updatedUser = await User.findByIdAndUpdate(
     _id,
     {
-      avatarUrl: file ? file.location : "img/avatardefault2.png",
+      avatarUrl: file
+        ? isHeroku
+          ? file.location
+          : file.path
+        : "img/avatardefault2.png", //여기 디폴트도 아마존 주소로 변경
       name,
       email,
       userId,
