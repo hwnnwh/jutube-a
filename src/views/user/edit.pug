@@ -2,6 +2,7 @@ extends ../template/layout
 
 block content 
     div.profile__data
+        //- img(src= "/" + loggedInUser.avatarUrl).avatar
         img(src=loggedInUser.avatarUrl).avatar
     form(method="POST" enctype="multipart/form-data").edit-user__form
         label(for="avatar") 프로필 사진   
@@ -10,7 +11,6 @@ block content
         input(name="email" type="email" placeholder="이메일" value=loggedInUser.email required minLenth="1")
         input(name="userId" type="text" placeholder="아이디" value=loggedInUser.userId required minLenth="1")
         input(name="location" type="text" placeholder="도시" value=loggedInUser.location required minLenth="1")
-        //-minLength 버그 방지 위함
         input(type="submit" value="수정")
         if !loggedInUser.socialOnly
             div.edit-user__password

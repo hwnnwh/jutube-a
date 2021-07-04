@@ -36,9 +36,10 @@ export const postUpload = async (req, res) => {
     body: { title, description, hashtags },
     file: { path: fileUrl },
   } = req;
+  const isHeroku = process.env.NODE_ENV === "production";
   try {
     const newVideo = await Video.create({
-      fileUrl: isHeroku ? file.location : file.path,
+      fileUrl: isHeroku ? file.location : fileUrl,
       title,
       description,
       creationTime: Date.now(),
@@ -50,10 +51,8 @@ export const postUpload = async (req, res) => {
     user.save();
     return res.redirect("/");
   } catch (err) {
-    return res.status(400).render("video/upload", {
-      pageTitle: "Upload",
-      errMessage: err._message,
-    });
+    req.flash("error", "오류가 발생했습니다. 다시 시도하세요");
+    return res.status(400).redirect("/videos/upload");
   }
 };
 

@@ -49,17 +49,13 @@ export const postLogin = async (req, res) => {
   const pageTitle = "Login";
   const user = await User.findOne({ userId, socialOnly: false });
   if (!user) {
-    return res.status(400).render("user/login", {
-      pageTitle,
-      errMessage: "존재하지 않는 아이디입니다",
-    });
+    req.flash("error", "존재하지 않는 아이디입니다");
+    return res.status(400).redirect("/login");
   }
   const greenLight = await bcrypt.compare(password, user.password);
   if (!greenLight) {
-    return res.status(400).render("user/login", {
-      pageTitle,
-      errMessage: "잘못된 비밀번호입니다",
-    });
+    req.flash("error", "잘못된 비밀번호입니다");
+    return res.status(400).redirect("/login");
   }
   req.session.loggedIn = true;
   req.session.user = user;
@@ -140,9 +136,9 @@ export const finishGithubLogin = async (req, res) => {
 };
 
 export const logout = (req, res) => {
-  req.flash("info", "로그아웃 되었습니다"); //
+  req.flash("info", "로그아웃 되었습니다");
   req.session.destroy();
-  return res.redirect("/");
+  return res.redirect("/login");
 };
 
 export const getEdit = (req, res) => {
@@ -157,7 +153,7 @@ export const postEdit = async (req, res) => {
     body: { name, email, userId, location },
     file,
   } = req;
-
+  const isHeroku = process.env.NODE_ENV === "production";
   const updatedUser = await User.findByIdAndUpdate(
     _id,
     {
@@ -165,7 +161,9 @@ export const postEdit = async (req, res) => {
         ? isHeroku
           ? file.location
           : file.path
-        : "img/avatardefault2.png", //여기 디폴트도 아마존 주소로 변경
+        : // : "img/avatardefault2.png",
+          아마존url,
+
       name,
       email,
       userId,
