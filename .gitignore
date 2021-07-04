@@ -3,3 +3,4 @@ node_modules
 /uploads
 /assets
 .DS_store
+/build
