@@ -2,7 +2,7 @@ extends ../template/layout
 
 block content 
     div.profile__data
-        img(src="/"+loggedInUser.avatarUrl).avatar
+        img(src=loggedInUser.avatarUrl).avatar
     form(method="POST" enctype="multipart/form-data").edit-user__form
         label(for="avatar") 프로필 사진   
         input(id="avatar" name="avatar" type="file" accept="image/*")

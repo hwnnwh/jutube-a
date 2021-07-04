@@ -13,10 +13,8 @@ header
         else 
           li 
             a(href=`/users/${loggedInUser._id}`)
-              if loogedInUser.avatarUrl.includes("github")
-                img.header__avatar(src=loggedInUser.avatarUrl ) 
               if loggedInUser.avatarUrl 
-                img.header__avatar(src= "/" + loggedInUser.avatarUrl)
+                img.header__avatar(src=loggedInUser.avatarUrl)
               else 
                 img.header__avatar(src= "/img/avatardefault2.png" )
           li
