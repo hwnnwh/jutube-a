@@ -10,7 +10,6 @@ export const postJoin = async (req, res) => {
   const {
     body: { name, userId, password, password2, email, location, avatarUrl },
   } = req;
-  const pageTitle = "Join";
   if (password !== password2) {
     req.flash("error", "비밀번호가 일치하지 않습니다");
     return res.status(400).redirect("/join");
@@ -46,7 +45,6 @@ export const postLogin = async (req, res) => {
   const {
     body: { userId, password },
   } = req;
-  const pageTitle = "Login";
   const user = await User.findOne({ userId, socialOnly: false });
   if (!user) {
     req.flash("error", "존재하지 않는 아이디입니다");
@@ -108,7 +106,6 @@ export const finishGithubLogin = async (req, res) => {
         },
       })
     ).json();
-
     const emailObj = emailData.find(
       (email) => email.primary === true && email.verified === true
     );
@@ -117,7 +114,7 @@ export const finishGithubLogin = async (req, res) => {
     }
     let user = await User.findOne({ email: emailObj.email });
     if (!user) {
-      user = User.create({
+      user = await User.create({
         avatarUrl: userData.avatar_url,
         name: userData.login,
         userId: userData.login,
@@ -216,9 +213,7 @@ export const profile = async (req, res) => {
     },
   });
   if (!user) {
-    return res
-      .status(404)
-      .render("template/404", { pageTitle: "USER NOT FOUND" });
+    return res.status(404).render("template/404", { pageTitle: "NO User" });
   }
   return res.render("user/profile", { pageTitle: user.name, user });
 };
