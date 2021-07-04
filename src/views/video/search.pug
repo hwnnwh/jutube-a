@@ -2,10 +2,10 @@ extends ../template/layout
 include ../mixins/renderVideo
 
 block content 
-    form(method="GET")
-        input(placeholder="검색어를 입력하시오" name="keyword" type="text")
-        input(type="submit" value="검색")
-    br
-    div 
+    form(method="GET").search__form
+        input(placeholder="검색어를 입력하세요" name="keyword" type="text")
+        button 
+            i.fas.fa-search
+    div.video-grid 
         each video in videos 
             +renderVideo(video)

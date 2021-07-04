@@ -1,0 +1,36 @@
+header {
+  a:hover {
+    color: tomato;
+  }
+  padding: 10px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .header__logo {
+    color: $color-logo-orange;
+    font-size: 40px;
+    font-family: "Shadows Into Light", cursive;
+    font-weight: 600;
+  }
+  ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    li {
+      margin-left: 30px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+  .header__avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+  }
+  .header__btn {
+    background-color: white;
+    color: $color-bg-purple;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+}

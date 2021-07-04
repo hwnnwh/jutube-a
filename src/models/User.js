@@ -14,8 +14,9 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, trim: true, unique: true },
   location: String,
   socialOnly: { type: Boolean, default: false },
-  avatarUrl: { type: String },
+  avatarUrl: { type: String, default: "img/avatardefault2.png" },
   videos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Video" }],
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
 });
 
 userSchema.pre("save", async function () {

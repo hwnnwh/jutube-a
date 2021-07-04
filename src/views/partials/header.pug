@@ -1,0 +1,27 @@
+header
+    
+    a(href="/").header__logo
+        i.fab.fa-youtube 
+        span  Jutube
+    nav
+      ul 
+        if !loggedIn
+          li 
+            a(href="/login") LOGIN
+          li 
+            a(href="/join") JOIN
+        else 
+          li 
+            a(href=`/users/${loggedInUser._id}`)
+              if loggedInUser.avatarUrl 
+                img.header__avatar(src= "/" + loggedInUser.avatarUrl)
+              else 
+                img.header__avatar(src= "/img/avatardefault2.png" )
+          li
+            a(href="/search") SEARCH
+          li
+            a(href="/videos/upload") UPLOAD
+          li 
+            a(href="/users/edit") EDIT PROFILE
+          li 
+            a(href="/users/logout") LOGOUT

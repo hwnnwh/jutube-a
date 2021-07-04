@@ -2,7 +2,7 @@ extends ../template/layout
 include ../mixins/renderVideo
 
 block content
-    if videos
+    div.video-grid.home__video-grid
         each video in videos 
             +renderVideo(video)
     

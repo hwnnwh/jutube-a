@@ -1,7 +1,5 @@
 import User from "../models/User";
-import Video from "../models/Video";
 import bcrypt from "bcrypt";
-
 import fetch from "node-fetch";
 
 export const getJoin = (req, res) => {
@@ -10,26 +8,23 @@ export const getJoin = (req, res) => {
 
 export const postJoin = async (req, res) => {
   const {
-    body: { name, userId, password, password2, email, location },
+    body: { name, userId, password, password2, email, location, avatarUrl },
   } = req;
   const pageTitle = "Join";
   if (password !== password2) {
-    return res.status(400).render("user/join", {
-      pageTitle,
-      errMessage: "패스워드가 일치하지 않습니다",
-    });
+    req.flash("error", "비밀번호가 일치하지 않습니다");
+    return res.status(400).redirect("/join");
   }
   const exists = await User.exists({
     $or: [{ userId }, { email }],
   });
   if (exists) {
-    return res.status(400).render("user/join", {
-      pageTitle,
-      errMessage: "이미 등록된 계정입니다",
-    });
+    req.flash("error", "해당 아이디 또는 이메일로 가입된 계정이 존재합니다");
+    return res.status(400).redirect("/join");
   }
   try {
     await User.create({
+      avatarUrl,
       name,
       userId,
       password,
@@ -38,11 +33,8 @@ export const postJoin = async (req, res) => {
     });
     return res.redirect("/login");
   } catch (err) {
-    console.log(err);
-    console.log(err._message);
-    return res
-      .status(400)
-      .render("user/join", { pageTitle, errMessage: err._message });
+    req.flash("error", "알 수 없는 에러가 발생했습니다");
+    return res.status(400).redirect("/join");
   }
 };
 
@@ -149,6 +141,7 @@ export const finishGithubLogin = async (req, res) => {
 };
 
 export const logout = (req, res) => {
+  req.flash("info", "로그아웃 되었습니다"); //
   req.session.destroy();
   return res.redirect("/");
 };
@@ -160,7 +153,7 @@ export const getEdit = (req, res) => {
 export const postEdit = async (req, res) => {
   const {
     session: {
-      user: { _id, avatarUrl },
+      user: { _id },
     },
     body: { name, email, userId, location },
     file,
@@ -169,7 +162,7 @@ export const postEdit = async (req, res) => {
   const updatedUser = await User.findByIdAndUpdate(
     _id,
     {
-      avatarUrl: file ? file.path : avatarUrl,
+      avatarUrl: file ? file.path : "img/avatardefault2.png",
       name,
       email,
       userId,
@@ -178,11 +171,13 @@ export const postEdit = async (req, res) => {
     { new: true }
   );
   req.session.user = updatedUser;
+  req.flash("info", "프로필이 업데이트 되었습니다");
   return res.redirect("/users/edit");
 };
 
 export const getChangePassword = (req, res) => {
   if (req.session.user.socialOnly === true) {
+    req.flash("error", "SNS로 로그인하셨습니다");
     return res.redirect("/");
   }
   return res.render("user/password", { pageTitle: "Change Password" });
@@ -198,25 +193,28 @@ export const postChangePassword = async (req, res) => {
   const user = await User.findById(_id);
   const match = await bcrypt.compare(password0, user.password);
   if (!match) {
-    return res.status(400).render("user/password", {
-      pageTitle: "Change Password",
-      errMessage: "현재 비밀번호가 일치하지 않습니다",
-    });
+    req.flash("error", "현재 비밀번호가 일치하지 않습니다");
+    return res.status(400).redirect("/users/password");
   }
   if (password1 !== password2) {
-    return res.status(400).render("user/password", {
-      pageTitle: "Change Password",
-      errMessage: "변경할 비밀번호와 비밀번호 확인 값이 일치하지 않습니다",
-    });
+    req.flash("error", "비밀번호 확인값이 일치하지 않습니다");
+    return res.status(400).redirect("/users/password");
   }
+  req.flash("info", "비밀번호를 변경했습니다");
   user.password = password1;
   await user.save();
-  return res.redirect("/users/logout");
+  return res.redirect("/users/password");
 };
 
 export const profile = async (req, res) => {
   const { id } = req.params;
-  const user = User.findById(id).populate("videos");
+  const user = await User.findById(id).populate({
+    path: "videos",
+    populate: {
+      path: "owner",
+      model: "User",
+    },
+  });
   if (!user) {
     return res
       .status(404)

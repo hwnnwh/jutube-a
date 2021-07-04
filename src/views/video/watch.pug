@@ -1,20 +1,59 @@
 extends ../template/layout
 
 block content
-    h3=video.title
-    video(src="/" + video.fileUrl, controls)
-    div
-        p=video.description
-        small=video.creationTime 
-        small
-            ul
-                each hashtag in video.hashtags
-                    li=hashtag.replace(/\s/g, "")
-    div 
-        small Uploaded by 
-            a(href=`/users/${video.owner._id}`)=video.owner.name
-    hr
-    //- if String(video.owner._id) === String(loggedInUser._id)
-    a(href=`${video._id}/edit`) Edit this video &rarr;
-    br
-    a(href=`${video._id}/delete`) Delete this video &rarr;
+    section.contentsContainer
+        div#videoContainer(data-id=video._id)
+            video(src="/" + video.fileUrl width="800" height="400")
+            div#videoControls.videoControls
+                div.videoControls__play
+                    span#play.videoControls__playBtn
+                        i.fas.fa-play
+                    div.videoControls__time
+                        span#currentTime 00:00
+                        span  / 
+                        span#duration 00:00
+                input(type="range",step="1", value="0", min="0")#timeline.videoControls__timeline
+                div.videoControls__volume
+                    input(type="range",step="0.1", value="0.5" min="0", max="1")#volumeBar
+                    span#muteBtn
+                        i.fas.fa-volume-up
+                div
+                    span#fullscreenBtn
+                        i.fas.fa-expand
+        div.video__data
+            div.video__data-wrapper
+                p.video__title=video.title
+                p=video.description
+                small.video__owner Uploaded by &nbsp;
+                    a(href=`/users/${video.owner._id}`)=video.owner.name
+                small.video__creationTime=new Date(video.creationTime).toLocaleDateString("ko-kr", {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'})
+                small=`${video.meta.views}회`
+            div.video__data-wrapper
+                if loggedIn
+                    if String(video.owner._id) === String(loggedInUser._id)
+                        a(href=`${video.id}/edit`) Edit Video
+                            span &rarr;
+                        br
+                        a(href=`${video.id}/delete`) Delete Video
+                            span &rarr;
+
+    if loggedIn
+        section.video__comments
+            form#commentForm.video__comment-form
+                textarea(cols="30" rows="1" placeholder="댓글을 입력하세요")
+                button
+                    i.far.fa-paper-plane#sendBtn
+            ul 
+                each comment in video.comments.reverse()
+                    li.video__comment(data-id=comment._id)
+                        i.fas.fa-comment
+                        span &nbsp; #{comment.text}
+                        if String(loggedInUser._id) === String(comment.owner._id)
+                            i.fas.fa-times.delBtns
+
+
+
+block script
+    script(src="/static/js/videoPlayer.js")
+    if loggedIn 
+        script(src="/static/js/commentSection.js")

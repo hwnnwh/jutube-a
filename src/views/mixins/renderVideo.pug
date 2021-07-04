@@ -1,6 +1,8 @@
 mixin renderVideo(video)
-    div 
-        a(href=`videos/${video._id}`)=video.title  
-        p=video.description 
-        small=video.creationTime 
-        hr
+    a(href=`/videos/${video._id}`).video-mixin
+        div.video-mixin__thumb 
+        div.video-mixin__data
+            span.video-mixin__title=video.title
+            div.video-mixin__meta
+                span #{video.owner.name} · 
+                span #{video.meta.views}회

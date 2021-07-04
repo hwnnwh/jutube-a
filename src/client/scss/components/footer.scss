@@ -1,0 +1,14 @@
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  footer {
+    text-align: center;
+    font-size: 12px;
+    opacity: 0.9;
+  }
+  span {
+    font-style: italic;
+    font-size: 12px;
+  }
+}
