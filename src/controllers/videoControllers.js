@@ -114,7 +114,7 @@ export const deleteVideo = async (req, res) => {
   const { _id } = req.session.user;
   const video = await Video.findById(id);
   if (String(video.owner) !== String(_id)) {
-    req.flash("error", "영상의 게시자만 영상을 삭제할 수 있습니다");
+    req.flash("error", "영상의 게시자만이 영상을 삭제할 수 있습니다");
     return res.status(403).redirect(`/videos/${id}`);
   }
   await Video.findByIdAndDelete(id);
